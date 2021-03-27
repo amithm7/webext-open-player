@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+    "name": "Open in mpv",
+    "version": "0.0.1",
+    "description": "Opens URLs (video) in mpv",
+    "icons": {
+        "128": "ico/video.png"
+    },
+    "browser_action": {
+        "default_icon": "ico/video.png"
+    },
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": false
+    },
+    "permissions": [
+        "tabs"
+    ]
+}
