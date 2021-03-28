@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main style="font-size: 2em; max-width: 80em;">
+        <h1 style="color: darkorchid; text-align: center;">Open In Player</h1>
+        <div>
+            <h5>Choose the players to show in right-click context menu:</h5>
+            <input type="checkbox" id="mpv"> mpv
+            <br>
+            <input type="checkbox" id="vlc"> vlc
+            <h5>Select default player (player to open when clicking on extension icon):</h5>
+            <select id="default" style="font-size: 1em;">
+                <option value="mpv">mpv</option>
+                <option value="vlc">vlc</option>
+            </select>
+        </div>
+
+        <div id="status" style="color: green; font-size: 3em;"></div>
+        <button id="save" style="padding: 1em; background-color: lightgreen; margin: .7em 0; border-radius: 20%;">
+            Save
+        </button>
+    </main>
+
+    <script src="options.js"></script>
+</body>
+</html>

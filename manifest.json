@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
-    "name": "Open in mpv",
+    "name": "Open in Player",
     "version": "0.0.1",
-    "description": "Opens URLs (video) in mpv",
+    "description": "Opens URLs (video) in mpv, vlc, etc",
     "icons": {
         "128": "ico/video.png"
     },
@@ -15,8 +15,13 @@
         ],
         "persistent": false
     },
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": false
+    },
     "permissions": [
         "tabs",
+        "storage",
         "contextMenus"
     ]
 }
