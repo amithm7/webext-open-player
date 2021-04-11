@@ -8,6 +8,40 @@ function openInVLC (url) {
     console.log("open vlc");
 }
 
+function createMenu (player) {
+    chrome.contextMenus.create({
+        id: player + "-page",
+        title: player + " - Open page",
+        contexts: ["page"]
+    });
+
+    chrome.contextMenus.create({
+        id: player + "-link",
+        title: player + " - Open link",
+        contexts: ["link"]
+    });
+
+    chrome.contextMenus.create({
+        id: player + "-video",
+        title: player + " - Open video",
+        contexts: ["video"]
+    });
+}
+
+function listenMenu (player) {
+    chrome.contextMenus.onClicked.addListener(function (info, tab) {
+        let url = "";
+        if (info.menuItemId == player + "-page") {
+            url = tab.url;
+        } else if (info.menuItemId == player + "-link") {
+            url = info.linkUrl;
+        } else if (info.menuItemId == player + "-video") {
+            url = info.srcUrl;
+        }
+        player == "mpv" ? openInMpv(url) : openInVLC(url);
+    });
+}
+
 chrome.storage.sync.get({
     defaultPlayer: 'mpv',
     players: {
@@ -23,44 +57,11 @@ chrome.storage.sync.get({
         }
     });
     if(items.players.mpv) {
-        chrome.contextMenus.create({
-            id: "open-page-mpv",
-            title: "Open page with mpv",
-            contexts: ["page"]
-        });
-
-        chrome.contextMenus.create({
-            id: "open-link-mpv",
-            title: "Open link with mpv",
-            contexts: ["link"]
-        });
-        chrome.contextMenus.onClicked.addListener(function (info, tab) {
-            if (info.menuItemId == "open-page-mpv") {
-                openInMpv(tab.url);
-            } else if (info.menuItemId == "open-link-mpv") {
-                openInMpv(info.linkUrl);
-            }
-        });
+        createMenu('mpv');
+        listenMenu('mpv');
     }
     if(items.players.vlc) {
-        chrome.contextMenus.create({
-            id: "open-page-vlc",
-            title: "Open page with VLC",
-            contexts: ["page"]
-        });
-
-        chrome.contextMenus.create({
-            id: "open-link-vlc",
-            title: "Open link with VLC",
-            contexts: ["link"]
-        });
-
-        chrome.contextMenus.onClicked.addListener(function (info, tab) {
-            if (info.menuItemId == "open-page-vlc") {
-                openInVLC(tab.url);
-            } else if (info.menuItemId == "open-link-vlc") {
-                openInVLC(info.linkUrl);
-            }
-        });
+        createMenu('vlc');
+        listenMenu('vlc');
     }
 });
