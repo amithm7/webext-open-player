@@ -42,26 +42,38 @@ function listenMenu (player) {
     });
 }
 
-chrome.storage.sync.get({
-    defaultPlayer: 'mpv',
-    players: {
-        mpv: true,
-        vlc: true
-    }
-}, function (items) {
-    chrome.browserAction.onClicked.addListener((tab) => {
-        if(items.defaultPlayer == 'mpv') {
-            openInMpv(tab.url);
-        } else if (items.defaultPlayer == 'vlc') {
-            openInVLC(tab.url);
+chrome.runtime.onInstalled.addListener(function () {
+    // Storage keys in namespace 'sync'
+    chrome.storage.sync.get({
+        defaultPlayer: 'mpv',
+        players: {
+            mpv: true,
+            vlc: true
+        }
+    }, function (items) {
+        chrome.browserAction.onClicked.addListener((tab) => {
+            if(items.defaultPlayer == 'mpv') {
+                openInMpv(tab.url);
+            } else if (items.defaultPlayer == 'vlc') {
+                openInVLC(tab.url);
+            }
+        });
+        if(items.players.mpv) {
+            createMenu('mpv');
+            listenMenu('mpv');
+        }
+        if(items.players.vlc) {
+            createMenu('vlc');
+            listenMenu('vlc');
         }
     });
-    if(items.players.mpv) {
-        createMenu('mpv');
-        listenMenu('mpv');
-    }
-    if(items.players.vlc) {
-        createMenu('vlc');
-        listenMenu('vlc');
+});
+
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+    chrome.runtime.reload();
+    for (var key in changes) {
+        var storageChange = changes[key];
+        console.log('Storage key', key, ' in namespace ',namespace, ' changed. ' +
+            'Old value was ', storageChange.oldValue,' new value is ', storageChange.newValue);
     }
 });

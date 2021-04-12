@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
+<body style="background-color: darkgrey;">
     <main style="font-size: 2em; max-width: 80em;">
         <h1 style="color: darkorchid; text-align: center;">Open In Player</h1>
         <div>
@@ -15,16 +15,19 @@
             <br>
             <input type="checkbox" id="vlc"> vlc
             <h5>Select default player (player to open when clicking on extension icon):</h5>
-            <select id="default" style="font-size: 1em;">
+            <select id="default" style="font-size: 1em; border-radius: .5em;">
                 <option value="mpv">mpv</option>
                 <option value="vlc">vlc</option>
             </select>
         </div>
 
-        <div id="status" style="color: green; font-size: 3em;"></div>
-        <button id="save" style="padding: 1em; background-color: lightgreen; margin: .7em 0; border-radius: 20%;">
-            Save
-        </button>
+        <div style="text-align: center;">
+            <button id="save"
+                style="padding: 1em 1.5em; background-color: greenyellow; margin: 1.5em auto; display: block; border-radius: 1em;">
+                Save
+            </button>
+            <div id="status" style="display: inline-block; color: green; font-size: 1em;"></div>
+        </div>
     </main>
 
     <script src="options.js"></script>
