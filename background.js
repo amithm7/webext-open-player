@@ -42,6 +42,7 @@ function listenMenu (player) {
     });
 }
 
+// Create menu on install / reload
 chrome.runtime.onInstalled.addListener(function () {
     // Storage keys in namespace 'sync'
     chrome.storage.sync.get({
@@ -51,24 +52,40 @@ chrome.runtime.onInstalled.addListener(function () {
             vlc: true
         }
     }, function (items) {
-        chrome.browserAction.onClicked.addListener((tab) => {
-            if(items.defaultPlayer == 'mpv') {
-                openInMpv(tab.url);
-            } else if (items.defaultPlayer == 'vlc') {
-                openInVLC(tab.url);
-            }
-        });
         if(items.players.mpv) {
             createMenu('mpv');
-            listenMenu('mpv');
         }
         if(items.players.vlc) {
             createMenu('vlc');
-            listenMenu('vlc');
         }
     });
 });
 
+// Create listeners for menu items and extension button
+// every time this script loads, as this script is not persistent.
+chrome.storage.sync.get({
+    defaultPlayer: 'mpv',
+    players: {
+        mpv: true,
+        vlc: true
+    }
+}, function (items) {
+    chrome.browserAction.onClicked.addListener((tab) => {
+        if (items.defaultPlayer == 'mpv') {
+            openInMpv(tab.url);
+        } else if (items.defaultPlayer == 'vlc') {
+            openInVLC(tab.url);
+        }
+    });
+    if (items.players.mpv) {
+        listenMenu('mpv');
+    }
+    if (items.players.vlc) {
+        listenMenu('vlc');
+    }
+});
+
+// When options are changed
 chrome.storage.onChanged.addListener(function (changes, namespace) {
     chrome.runtime.reload();
     for (var key in changes) {
