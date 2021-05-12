@@ -6,6 +6,7 @@
   "scripts": {
     "start:firefox": "web-ext run --source-dir ./src/",
     "start:chrome": "web-ext run --source-dir ./src/ --target=chromium",
+    "build": "web-ext build --source-dir ./src/ --artifacts-dir ./build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
