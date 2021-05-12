@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Open in Player",
     "version": "0.0.1",
-    "description": "Opens URLs (video) in mpv, vlc, etc",
+    "description": "Open URLs (video) in mpv, vlc, etc",
     "icons": {
         "128": "ico/video.png"
     },

@@ -1,0 +1,24 @@
+{
+  "name": "webext-open-player",
+  "version": "0.0.1",
+  "description": "Open URLs (video) in mpv, vlc, etc",
+  "main": "src/background.js",
+  "scripts": {
+    "start:firefox": "web-ext run --source-dir ./src/",
+    "start:chrome": "web-ext run --source-dir ./src/ --target=chromium",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amithm7/webext-open-player.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/amithm7/webext-open-player/issues"
+  },
+  "homepage": "https://github.com/amithm7/webext-open-player#readme",
+  "devDependencies": {
+    "web-ext": "^6.1.0"
+  }
+}
