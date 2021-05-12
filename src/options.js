@@ -4,7 +4,7 @@ function save_options() {
     var mpvCheck = document.getElementById('mpv').checked;
     var vlcCheck = document.getElementById('vlc').checked;
 
-    chrome.storage.sync.set({
+    chrome.storage.local.set({
         defaultPlayer: defaultPlayer,
         players: {
             mpv: mpvCheck,
@@ -24,7 +24,7 @@ function save_options() {
 // stored in chrome.storage.
 function restore_options() {
     // Use default values are specified here
-    chrome.storage.sync.get({
+    chrome.storage.local.get({
         defaultPlayer: 'mpv',
         players: {
             mpv: true,

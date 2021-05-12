@@ -44,8 +44,8 @@ function listenMenu (player) {
 
 // Create menu on install / reload
 chrome.runtime.onInstalled.addListener(function () {
-    // Storage keys in namespace 'sync'
-    chrome.storage.sync.get({
+    // Storage keys in namespace 'local' (storage area)
+    chrome.storage.local.get({
         defaultPlayer: 'mpv',
         players: {
             mpv: true,
@@ -63,7 +63,7 @@ chrome.runtime.onInstalled.addListener(function () {
 
 // Create listeners for menu items and extension button
 // every time this script loads, as this script is not persistent.
-chrome.storage.sync.get({
+chrome.storage.local.get({
     defaultPlayer: 'mpv',
     players: {
         mpv: true,
