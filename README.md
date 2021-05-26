@@ -1,4 +1,4 @@
-# Open In mpv Web Ext
+# Web Extension: Open In Player
 
 Opens URLs (video) in mpv or vlc
 
