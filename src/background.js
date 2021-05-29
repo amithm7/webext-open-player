@@ -42,23 +42,21 @@ function listenMenu (player) {
     });
 }
 
-// Create menu on install / reload
-chrome.runtime.onInstalled.addListener(function () {
-    // Storage keys in namespace 'local' (storage area)
-    chrome.storage.local.get({
-        defaultPlayer: 'mpv',
-        players: {
-            mpv: true,
-            vlc: true
-        }
-    }, function (items) {
-        if(items.players.mpv) {
-            createMenu('mpv');
-        }
-        if(items.players.vlc) {
-            createMenu('vlc');
-        }
-    });
+// Create menu
+// Storage keys in namespace 'local' (storage area)
+chrome.storage.local.get({
+    defaultPlayer: 'mpv',
+    players: {
+        mpv: true,
+        vlc: true
+    }
+}, function (items) {
+    if(items.players.mpv) {
+        createMenu('mpv');
+    }
+    if(items.players.vlc) {
+        createMenu('vlc');
+    }
 });
 
 // Create listeners for menu items and extension button
