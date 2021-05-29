@@ -4,7 +4,7 @@
   "description": "Open URLs (video) in mpv, vlc, etc",
   "main": "src/background.js",
   "scripts": {
-    "start:firefox": "web-ext run --source-dir ./src/",
+    "start:firefox": "web-ext run --source-dir ./src/ --firefox=firefox-dev",
     "start:chrome": "web-ext run --source-dir ./src/ --target=chromium",
     "build": "web-ext build --source-dir ./src/ --artifacts-dir ./build",
     "test": "echo \"Error: no test specified\" && exit 1"
