@@ -8,25 +8,42 @@ Opens URLs (video) in mpv or vlc
 
 **`ytdl://` URL's needs to be associated with mpv for this extension to work**
 
-On linux, this can be done with creating a `.desktop` file in `~/.local/share/applications/`
+1. System wide association:
+	- On linux, this can be done with creating a `.desktop` file in
+		`~/.local/share/applications/`
+	- Example (`mpv-ytdl.desktop`):
+		```desktop
+		[Desktop Entry]
+		Type=Application
+		Name=mpv-ytdl
+		Exec=mpv %U
+		Terminal=false
+		NoDisplay=true
+		MimeType=x-scheme-handler/ytdl
+		```
+	- And then run `update-desktop-database ~/.local/share/applications`
+	- You can test if this works with
+		`xdg-mime query default x-scheme-handler/ytdl`
+		and it should show you the respective `.desktop` file.
 
-Example (`mpv-ytdl.desktop`):
-
-```sh
-[Desktop Entry]
-Type=Application
-Name=mpv-ytdl
-Exec=mpv %U
-Terminal=false
-NoDisplay=true
-MimeType=x-scheme-handler/ytdl
-```
-
-And then run `update-desktop-database ~/.local/share/applications`
-
-You can test if this works with
-`xdg-mime query default x-scheme-handler/ytdl`
-and it should show you the respective `.desktop` file.
+2. For use Firefox browser only:
+	- Navigate to address `about:support`.
+	- Look for an entry _Profile Directory_ or _Profile Folder_ (on Windows).
+	- Open this directory or folder to find `handlers.json` file.
+	- Edit the the file to add a a new `schemes` entry for `ytdl` like so:
+		```json
+		"schemes": {
+			"ytdl": {
+				"handlers": [
+					null
+				]
+			}
+		}
+		```
+	- Restart Firefox.
+	- Navigate to address `about:preferences#general` and find the
+		_Applications_ section. Here, you will find the `ytdl` entry.
+	- Choose the _Action_ for the `ytdl` entry as to open with `mpv`.
 
 ### Open in VLC:
 
@@ -34,7 +51,7 @@ and it should show you the respective `.desktop` file.
 
 Create `vlc-handler.desktop` in `~/.local/share/applications/` or `/usr/share/applications/`
 
-```sh
+```desktop
 [Desktop Entry]
 Type=Application
 Name=VLC URL handler
