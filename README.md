@@ -30,14 +30,16 @@ Opens URLs (video) in mpv or vlc
 	- Navigate to address `about:support`.
 	- Look for an entry _Profile Directory_ or _Profile Folder_ (on Windows).
 	- Open this directory or folder to find `handlers.json` file.
-	- Edit the the file to add a a new `schemes` entry for `ytdl` like so:
+	- Open the file to edit it (you may need to format it to be readable,
+		you could do that with your text editor or an online tool like
+		jsonlint.com).
+	- In this JSON file, there are few schemes defined, you will need to add
+		a new one named `ytdl` with and empty object `{}` at the end of
+		`schemes` object value, like this:
 		```json
 		"schemes": {
-			"ytdl": {
-				"handlers": [
-					null
-				]
-			}
+			// <other schemes here already>,
+			"ytdl": {}
 		}
 		```
 	- Restart Firefox.
