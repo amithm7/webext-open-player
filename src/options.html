@@ -1,35 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        :root {
+            --background-color: #EBF4FF;
+            --text-color: #2D3748;
+            --heading-color: #9333ea;
+            --border-color: #A0AEC0;
+            --btn-color: #3b82f6;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-color: #0f172a;
+                --text-color: #fafaf9;
+                --border-color: #2d3748;
+                --btn-color: #b45309;
+            }
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: var(--heading-color);
+        }
+
+        main {
+            max-width: 80em;
+            font-size: 2em;
+        }
+
+        .btn {
+            display: block;
+            background-color: var(--btn-color);
+            color: white;
+            padding: 1em 1.5em;
+            margin: 1.5em auto;
+            border-radius: 1em;
+            border: none;
+        }
+
+        h1.title,
+        div.save {
+            text-align: center;
+        }
+
+        div.form {
+            margin: 2em auto;
+            max-width: 40em;
+            padding: 1em;
+            border: 1px solid var(--border-color);
+            border-radius: 1em;
+        }
+
+        div.form input,
+        div.form select {
+            margin: 0 1em;
+        }
+
+        div.form select {
+            font-size: 1em;
+            border: 1px solid var(--border-color);
+            border-radius: 1em;
+            padding: 0.1em 0.5em;
+        }
+
+        #status {
+            display: inline-block;
+            color: green;
+            font-size: 1em;
+        }
+
+    </style>
 </head>
-<body style="background-color: darkgrey;">
-    <main style="font-size: 2em; max-width: 80em;">
-        <h1 style="color: darkorchid; text-align: center;">Open In Player</h1>
-        <div>
+
+<body>
+    <main>
+        <h1 class="title">Open In Player</h1>
+        <div class="form">
             <h5>Choose the players to show in right-click context menu:</h5>
             <input type="checkbox" id="mpv"> mpv
             <br>
             <input type="checkbox" id="vlc"> vlc
             <h5>Select default player (player to open when clicking on extension icon):</h5>
-            <select id="default" style="font-size: 1em; border-radius: .5em;">
+            <select id="default">
                 <option value="mpv">mpv</option>
                 <option value="vlc">vlc</option>
             </select>
         </div>
 
-        <div style="text-align: center;">
-            <button id="save"
-                style="padding: 1em 1.5em; background-color: greenyellow; margin: 1.5em auto; display: block; border-radius: 1em;">
+        <div class="save">
+            <div id="status"></div>
+            <button id="save" class="btn">
                 Save
             </button>
-            <div id="status" style="display: inline-block; color: green; font-size: 1em;"></div>
         </div>
     </main>
 
     <script src="options.js"></script>
 </body>
+
 </html>
