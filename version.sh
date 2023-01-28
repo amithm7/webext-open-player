@@ -25,6 +25,7 @@ read -p "Push changes? [y/N] " -n 1 -r
 echo # new line
 
 if [[ $REPLY =~ ^[Yy]$ ]]
+then
     echo "Pushing new version..."
     git push origin main
     git push origin --tags
