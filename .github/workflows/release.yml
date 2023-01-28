@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-artifact@v2
+        with:
+          path: build
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm ci
+      - run: |
+          npx web-ext sign \
+            --source-dir src \
+            --artifacts-dir build \
+            --channel listed \
+            --id $WEB_EXT_ID \
+            --api-key $WEB_EXT_API_KEY \
+            --api-secret $WEB_EXT_API_SECRET
+        env:
+          WEB_EXT_ID: ${{ vars.AMO_UUID }}
+          WEB_EXT_API_KEY: ${{ secrets.AMO_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_API_SECRET }}
+      - uses: actions/upload-artifact@v2
+        with:
+          path: build
+
+  release:
+    needs: [build, publish]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          path: build
+      - id: major_version
+        run: |
+          echo major_version=$( \
+            echo ${{ github.ref }} | cut -d'v' -f2 | cut -d'.' -f1 \
+          ) >> $GITHUB_OUTPUT
+      - id: is_release_candidate
+        run: |
+          echo is_release_candidate=$( \
+            echo ${{ github.ref }} | grep -c 'rc' \
+          ) >> $GITHUB_OUTPUT
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          prerelease: >
+            ${{ steps.major_version.outputs.major_version == 0 ||
+              steps.is_release_candidate.outputs.is_release_candidate == 1 }}
+          generate_release_notes: true
+          files: build/*
