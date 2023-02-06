@@ -36,7 +36,7 @@ jobs:
           WEB_EXT_ID: ${{ vars.AMO_UUID }}
           WEB_EXT_API_KEY: ${{ secrets.AMO_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.AMO_API_SECRET }}
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           path: build
 
@@ -45,7 +45,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: artifact # otherwise, it will download all artifacts, creating a subdirectory for each artifact.
           path: build
