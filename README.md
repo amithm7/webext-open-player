@@ -44,7 +44,7 @@ chmod +x ./install.sh
 - In this JSON file, there are few schemes defined, you will need to add
 	a new one named `ytdl` with and empty object `{}` at the end of
 	`schemes` object value, like this:
-	```json
+	```jsonc
 	"schemes": {
 		// <other schemes here already>,
 		"ytdl": {}
