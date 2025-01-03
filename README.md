@@ -13,7 +13,8 @@ Supported players:
 
 ### 2. Get the Extension
 
-Install extension from [Mozilla Add-Ons](https://addons.mozilla.org/en-US/firefox/addon/open-in-player/) if not already.
+- FireFox: Install extension from [Mozilla Add-Ons](https://addons.mozilla.org/en-US/firefox/addon/open-in-player/) if not already.
+- Chromium Browsers: Download this repo and load unpacked from and point to the `src` directory here.
 
 ### 3. Setup
 
