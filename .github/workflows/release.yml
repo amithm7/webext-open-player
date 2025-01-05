@@ -29,18 +29,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm ci
-      - run: >
-          npx web-ext sign
-            --source-dir src
-            --artifacts-dir build
-            --channel listed
-            --id $WEB_EXT_ID
-            --api-key $WEB_EXT_API_KEY
-            --api-secret $WEB_EXT_API_SECRET
-        env:
+      - env:
           WEB_EXT_ID: ${{ vars.AMO_UUID }}
           WEB_EXT_API_KEY: ${{ secrets.AMO_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.AMO_API_SECRET }}
+        run: >
+          npx web-ext sign
+          --source-dir src
+          --artifacts-dir build
+          --channel listed
+          --id $WEB_EXT_ID
+          --api-key $WEB_EXT_API_KEY
+          --api-secret $WEB_EXT_API_SECRET
       - uses: actions/upload-artifact@v4
         with:
           path: build
@@ -70,5 +70,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           prerelease: ${{ steps.major_version.outputs.major_version == 0 || steps.is_release_candidate.outputs.is_release_candidate == 1 }}
+          tag_name: ${{ env.version }}
           generate_release_notes: true
           files: build/*
