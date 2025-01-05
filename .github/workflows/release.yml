@@ -10,7 +10,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: npm ci
       - run: npm run build
       - uses: actions/upload-artifact@v2
@@ -22,7 +22,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: npm ci
       - run: >
           npx web-ext sign
@@ -36,7 +36,7 @@ jobs:
           WEB_EXT_ID: ${{ vars.AMO_UUID }}
           WEB_EXT_API_KEY: ${{ secrets.AMO_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.AMO_API_SECRET }}
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: build
 
@@ -45,7 +45,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: artifact # otherwise, it will download all artifacts, creating a subdirectory for each artifact.
           path: build
@@ -60,7 +60,7 @@ jobs:
             echo ${{ github.ref }} | grep -c 'rc'
           ) >> $GITHUB_OUTPUT
       - name: Create release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           prerelease: ${{ steps.major_version.outputs.major_version == 0 || steps.is_release_candidate.outputs.is_release_candidate == 1 }}
           generate_release_notes: true
