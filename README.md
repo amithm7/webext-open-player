@@ -20,8 +20,7 @@ Supported players:
 
 > [!IMPORTANT]
 > For mpv setup, `ytdl://` URL's need to be associated with mpv
-
-> [!IMPORTANT]
+>
 > For vlc setup, `vlc://` URL handler needs to be created, such URLs be associate with it
 
 #### 3a. System wide (Linux)
