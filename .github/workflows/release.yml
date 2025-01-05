@@ -4,6 +4,11 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "v0.0.0"
+        required: true
 
 jobs:
   build:
@@ -44,6 +49,8 @@ jobs:
     name: Release
     needs: build
     runs-on: ubuntu-latest
+    env:
+      version: ${{ github.event.inputs.tag || github.ref }}
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -52,12 +59,12 @@ jobs:
       - id: major_version
         run: >
           echo major_version=$(
-            echo ${{ github.ref }} | cut -d'v' -f2 | cut -d'.' -f1
+            echo "$version" | cut -d'v' -f2 | cut -d'.' -f1
           ) >> $GITHUB_OUTPUT
       - id: is_release_candidate
         run: >
           echo is_release_candidate=$(
-            echo ${{ github.ref }} | grep -c 'rc'
+            echo "$version" | grep -c 'rc'
           ) >> $GITHUB_OUTPUT
       - name: Create release
         uses: softprops/action-gh-release@v2
