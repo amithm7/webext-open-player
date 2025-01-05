@@ -1,12 +1,16 @@
 function openPlayer (player, url) {
+    // Strip `https?://`. Otherwise, `:` gets dropped somehow when it reaches the player
+    let finalURL = url.replace(/^(https?:\/\/)/, '');
     switch (player) {
         case 'mpv':
-            chrome.tabs.update({ 'url': 'ytdl://' + url });
-            console.log("open mpv");
+            finalURL = 'ytdl://' + finalURL;
+            chrome.tabs.update({ 'url': finalURL });
+            console.log("open mpv", finalURL);
             break;
         case 'vlc':
-            chrome.tabs.update({ 'url': 'vlc://' + url });
-            console.log("open vlc");
+            finalURL = 'vlc://' + url;
+            chrome.tabs.update({ 'url': finalURL });
+            console.log("open vlc", finalURL);
             break;
     }
 }
