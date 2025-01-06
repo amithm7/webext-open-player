@@ -1,20 +1,57 @@
 #!/usr/bin/env sh
 
+confirm_y() {
+	read -r -p "${1:-Are you sure?}  [Y/n]" -n 1 response
+	echo # new line
+	case "$response" in
+	[nN]) false ;;
+	*) true ;;
+	esac
+}
+
+# ------------------------------------------------------------------------------
+
 DESKTOP_DIR="$HOME/.local/share/applications"
 # DESKTOP_DIR="/usr/share/applications"
 DESKTOP_FILE_PATH_MPV="$DESKTOP_DIR/mpv-ytdl.desktop"
 DESKTOP_FILE_PATH_VLC="$DESKTOP_DIR/vlc-handler.desktop"
-# VLC_HANDLER_PATH="$HOME/.local/share/handlers/vlc-handler"
-VLC_HANDLER_PATH="/usr/share/handlers/vlc-handler" # OR at $HOME/.local/share/handlers/vlc-handler
+
+# HANDLER_DIR="$HOME/.local/share/handlers"
+HANDLER_DIR="/usr/share/handlers"
+HANDLER_PATH_MPV="mpv"
+HANDLER_PATH_VLC="$HANDLER_DIR/vlc-handler"
 
 setup_mpv() {
+	# Create mpv-handler
+	# HANDLER_PATH_MPV="$HANDLER_DIR/mpv-ytdl"
+	# echo "Creating $HANDLER_PATH_MPV"
+	# mkdir -p "$HANDLER_DIR" ||
+	# 	sudo mkdir -p "$HANDLER_DIR" ||
+	# 	{
+	# 		echo "Failed to verify / create directory"
+	# 		exit 1
+	# 	}
+
+	# ([ ! -f "$HANDLER_PATH_MPV" ] || confirm_y "File exists. Overwrite?") &&
+	# 	cat <<-'EOF' | sudo tee "$HANDLER_PATH_MPV" >/dev/null || echo 'not created'
+	# 		#!/usr/bin/env sh
+	# 		# request="${1#*://}"             # Remove schema from url (ytdl://)
+	# 		request="$1"
+	# 		konsole --noclose -e 'bash -c "echo \"args: '$@'\"; echo \"request: '$request'\"; mpv '$request'"'
+	# 		# konsole --noclose -e "mpv $request"
+	# 		# (mpv "$request")
+	# 	EOF
+
+	# test -x "$HANDLER_PATH_MPV" || chmod +x "$HANDLER_PATH_MPV" || sudo chmod +x "$HANDLER_PATH_MPV"
+
+	# Create mpv-handler.desktop
 	echo "Creating $DESKTOP_FILE_PATH_MPV"
-	[ ! -f "$DESKTOP_FILE_PATH_MPV" ] &&
-		cat <<-'EOF' >"$DESKTOP_FILE_PATH_MPV" || echo 'mpv-ytdl.desktop file exists already'
+	([ ! -f "$DESKTOP_FILE_PATH_MPV" ] || confirm_y "File exists. Overwrite?") &&
+		cat <<-'EOF' | sed "s|{EXEC}|${HANDLER_PATH_MPV}|" >"$DESKTOP_FILE_PATH_MPV" || echo 'not created'
 			[Desktop Entry]
 			Type=Application
-			Name=mpv-ytdl
-			Exec=mpv %U
+			Name=MPV URL handler
+			Exec={EXEC} %U
 			Terminal=false
 			NoDisplay=true
 			MimeType=x-scheme-handler/ytdl
@@ -23,27 +60,27 @@ setup_mpv() {
 
 setup_vlc() {
 	# Create vlc-handler
-	echo "Creating $VLC_HANDLER_PATH"
-	mkdir -p "$(dirname "$VLC_HANDLER_PATH")" ||
-		sudo mkdir -p "$(dirname "$VLC_HANDLER_PATH")" ||
+	echo "Creating $HANDLER_PATH_VLC"
+	mkdir -p "$HANDLER_DIR" ||
+		sudo mkdir -p "$HANDLER_DIR" ||
 		{
 			echo "Failed to verify / create directory"
 			exit 1
 		}
 
-	[ ! -f "$VLC_HANDLER_PATH" ] &&
-		cat <<-'EOF' | sudo tee "$VLC_HANDLER_PATH" >/dev/null || echo 'VLC handler exits already'
+	([ ! -f "$HANDLER_PATH_VLC" ] || confirm_y "File exists. Overwrite?") &&
+		cat <<-'EOF' | sudo tee "$HANDLER_PATH_VLC" >/dev/null || echo 'not created'
 			#!/usr/bin/env bash
 			request="${1#*://}"             # Remove schema from url (vlc://)
 			vlc "$request"
 		EOF
 
-	test -x "$VLC_HANDLER_PATH" || chmod +x "$VLC_HANDLER_PATH" || sudo chmod +x "$VLC_HANDLER_PATH"
+	test -x "$HANDLER_PATH_VLC" || chmod +x "$HANDLER_PATH_VLC" || sudo chmod +x "$HANDLER_PATH_VLC"
 
 	# Create vlc-handler.desktop
 	echo "Creating $DESKTOP_FILE_PATH_VLC"
-	[ ! -f "$DESKTOP_FILE_PATH_VLC" ] &&
-		cat <<-'EOF' | sed "s|{EXEC}|${VLC_HANDLER_PATH}|" >"$DESKTOP_FILE_PATH_VLC" || echo 'vlc-handler.desktop file exists already'
+	([ ! -f "$DESKTOP_FILE_PATH_VLC" ] || confirm_y "File exists. Overwrite?") &&
+		cat <<-'EOF' | sed "s|{EXEC}|${HANDLER_PATH_VLC}|" >"$DESKTOP_FILE_PATH_VLC" || echo 'not created'
 			[Desktop Entry]
 			Type=Application
 			Name=VLC URL handler
