@@ -9,6 +9,14 @@ on:
       tag:
         description: "v0.0.0"
         required: true
+      channel:
+        description: To publish to add-ons mozilla, choose listed.
+        default: unlisted
+        required: true
+        type: choice
+        options:
+          - listed
+          - unlisted
 
 jobs:
   build:
@@ -33,14 +41,16 @@ jobs:
           WEB_EXT_ID: ${{ vars.AMO_UUID }}
           WEB_EXT_API_KEY: ${{ secrets.AMO_API_KEY }}
           WEB_EXT_API_SECRET: ${{ secrets.AMO_API_SECRET }}
+          CHANNEL: ${{ github.event.inputs.channel || 'listed' }}
         run: >
           npx web-ext sign
           --source-dir src
           --artifacts-dir build
-          --channel listed
-          --id $WEB_EXT_ID
-          --api-key $WEB_EXT_API_KEY
-          --api-secret $WEB_EXT_API_SECRET
+          --channel "$CHANNEL"
+          "$([ "$CHANNEL" = "listed" ] && echo '--use-submission-api')"
+          --id "$WEB_EXT_ID"
+          --api-key "$WEB_EXT_API_KEY"
+          --api-secret "$WEB_EXT_API_SECRET"
       - uses: actions/upload-artifact@v4
         with:
           path: build

@@ -43,12 +43,12 @@ chmod +x ./install.sh
 - In this JSON file, there are few schemes defined, you will need to add
 	a new one named `ytdl` with and empty object `{}` at the end of
 	`schemes` object value, like this:
-	```jsonc
-	"schemes": {
-		// <other schemes here already>,
-		"ytdl": {}
-	}
-	```
+	- ```jsonc
+	  "schemes": {
+	  	// <other schemes here already>,
+	  	"ytdl": {}
+	  }
+	  ```
 - Restart Firefox.
 - Navigate to address `about:preferences#general` and find the
 	_Applications_ section. Here, you will find the `ytdl` entry.
