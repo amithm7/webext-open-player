@@ -47,7 +47,7 @@ jobs:
           --source-dir src
           --artifacts-dir build
           --channel "$CHANNEL"
-          "$([ "$CHANNEL" = "listed" ] && echo '--use-submission-api')"
+          $([ "$CHANNEL" = "listed" ] && echo '--use-submission-api')
           --id "$WEB_EXT_ID"
           --api-key "$WEB_EXT_API_KEY"
           --api-secret "$WEB_EXT_API_SECRET"
